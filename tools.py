@@ -7,7 +7,7 @@ from streamlit.components.v1 import html
 
 def load_styles(anchor_name: str):
     # Chargement des styles CSS
-    with open("exam_florian_brunel/styles.css") as f:
+    with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     # Chargement des icones Material et de Tailwind
