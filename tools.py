@@ -1,3 +1,6 @@
+import math
+import json
+import pandas as pd
 import streamlit as st
 from streamlit.components.v1 import html
 
@@ -158,3 +161,90 @@ def load_styles(anchor_name: str):
         """,
         height=0,
     )
+
+
+@st.cache_data
+def load_data(radius: int):
+    # Charger le fichier infos_stations.csv
+    infos_stations = pd.read_csv("exam_florian_brunel/data/stations.csv")
+
+    # Filtrer les stations Carrefour
+    carrefour_stations = infos_stations[
+        infos_stations["Enseignes"].str.contains("Carrefour|CRF", na=False, case=False)
+    ]
+    concurrent_stations = infos_stations[
+        ~infos_stations["Enseignes"].str.contains("Carrefour|CRF", na=False, case=False)
+    ]
+
+    # Sauvegarder les fichiers filtrés
+    carrefour_stations.to_csv("exam_florian_brunel/data/Carrefour.csv", index=False)
+    concurrent_stations.to_csv("exam_florian_brunel/data/Concurrents.csv", index=False)
+
+    def haversine(lat1, lon1, lat2, lon2):
+        # Convertir les degrés en radians
+        lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+        # Rayon moyen de la Terre en kilomètres
+        R = 6371.0
+        # Différences de coordonnées
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+        # Formule de Haversine
+        a = (
+            math.sin(dlat / 2) ** 2
+            + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        )
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        # Distance en kilomètres
+        distance = R * c
+        return distance
+
+    # Formater les latitudes et longitudes
+    concurrent_stations["ID"] = concurrent_stations["ID"].apply(str)
+    concurrent_stations["Latitude"] = (
+        concurrent_stations["Latitude"].apply(float) / 100000
+    )
+    concurrent_stations["Longitude"] = (
+        concurrent_stations["Longitude"].apply(float) / 100000
+    )
+    D1 = {
+        concurrent_stations.loc[id, "ID"]: (
+            concurrent_stations.loc[id, "Latitude"],
+            concurrent_stations.loc[id, "Longitude"],
+        )
+        for id in concurrent_stations.index
+    }
+
+    carrefour_stations["ID"] = carrefour_stations["ID"].apply(str)
+    carrefour_stations["Latitude"] = (
+        carrefour_stations["Latitude"].apply(float) / 100000
+    )
+    carrefour_stations["Longitude"] = (
+        carrefour_stations["Longitude"].apply(float) / 100000
+    )
+    D2 = {
+        carrefour_stations.loc[id, "ID"]: (
+            carrefour_stations.loc[id, "Latitude"],
+            carrefour_stations.loc[id, "Longitude"],
+        )
+        for id in carrefour_stations.index
+    }
+
+    # Liste des concurrents dans un rayon de 10 km
+    D = dict()
+
+    def list_concurrents(id):
+        L_conc = list()
+        for x in D1:
+            d = haversine(D2[id][0], D2[id][1], D1[x][0], D1[x][1])
+            if d <= radius:
+                L_conc.append(x)
+        return L_conc
+
+    # Créer un dictionnaire pour stocker les concurrents
+    D = {id: list_concurrents(id) for id in D2}
+
+    # Sauvegarder les données dans un fichier JSON
+    with open(
+        f"exam_florian_brunel/data/concurrents_{radius}km.json", "w"
+    ) as json_file:
+        json.dump(D, json_file, indent=4)

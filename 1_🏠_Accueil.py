@@ -1,14 +1,15 @@
 import pandas as pd
 import streamlit as st
-from tools import load_styles
+from tools import load_styles, load_data
 
 ### Configuration de la page --------------------------------------------------------------------------------------------
 
 # Titre de la page
-st.set_page_config(page_title="Examen BI Florian Brunel", page_icon="📝")
+st.set_page_config(page_title="Examen BI Florian Brunel", page_icon="📝", layout="wide")
 
 # Chargement des styles CSS et chargement des icones Material
 load_styles("725d3ddf")
+load_data(radius=10)
 
 # Titre du document
 st.markdown(

@@ -3,7 +3,7 @@ import streamlit as st
 from tools import load_styles
 
 # Configuration de la page
-st.set_page_config(page_title="KPIs des enseignes", page_icon="🎯")
+st.set_page_config(page_title="KPIs des enseignes", page_icon="🎯", layout="wide")
 load_styles("d813c640")
 st.markdown(
     "<h1 style='text-align: center;'>KPIs des enseignes 🎯</h1><hr />",
