@@ -59,7 +59,7 @@ selected_station = station_options[selected_station_id]
 # Créer une carte centrée sur la station sélectionnée
 map_france = folium.Map(
     location=[selected_station["Latitude"], selected_station["Longitude"]],
-    zoom_start=11.5,
+    zoom_start=10,
 )
 
 # Ajouter un cercle représentant le rayon de recherche des concurrents
