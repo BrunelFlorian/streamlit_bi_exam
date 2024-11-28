@@ -1,0 +1,94 @@
+* {
+    text-decoration: none !important;
+}
+
+h1 {
+    font-weight: 700 !important;
+    font-size: 2.75rem !important;
+}
+
+.stMain .element-container .e1nzilvr5 hr {
+    margin: 2em 0px !important;
+}
+
+.scroll-to-top {
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 999999;
+    background-color: rgb(38, 39, 48);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-to-top:hover {
+    background-color: rgb(48, 50, 60);
+}
+
+.scroll-to-top span {
+    font-size: 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+section.stSidebar .eczjsme9 {
+    flex-direction: row;
+}
+
+.eczjsme12 {
+    padding: 0;
+}
+
+.eczjsme12 h2 {
+    padding-bottom: 30px;
+}
+
+.eczjsme12 h2:first-child {
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 16px;
+}
+
+
+.eczjsme12 .logo {
+    display: flex;
+    justify-content: center;
+}
+
+.st-emotion-cache-13ln4jf {
+    max-width: 60rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(21, 26, 35);
+    z-index: 9999;
+    padding: 1em 0;
+}
+
+.footer p {
+    color: white;
+    font-size: 1rem;
+}
+
+.stSidebar .stSelectbox {
+    padding: 2em 1em 0 1em;
+}
+
+.e1f1d6gn4:nth-child(8) {
+    display: flex;
+    justify-content: center;
+}
