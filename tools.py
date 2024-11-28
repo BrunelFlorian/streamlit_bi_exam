@@ -166,7 +166,7 @@ def load_styles(anchor_name: str):
 @st.cache_data
 def load_data(radius: int):
     # Charger le fichier infos_stations.csv
-    infos_stations = pd.read_csv("exam_florian_brunel/data/stations.csv")
+    infos_stations = pd.read_csv("data/stations.csv")
 
     # Filtrer les stations Carrefour
     carrefour_stations = infos_stations[
