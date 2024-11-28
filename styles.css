@@ -84,7 +84,8 @@ section.stSidebar .eczjsme9 {
     font-size: 1rem;
 }
 
-.stSidebar .stSelectbox {
+.stSidebar .stSelectbox,
+.stSidebar .stDateInput {
     padding: 2em 1em 0 1em;
 }
 

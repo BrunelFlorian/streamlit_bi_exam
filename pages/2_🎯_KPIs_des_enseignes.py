@@ -81,21 +81,22 @@ for carburant in carburants:
 prix.ffill(inplace=True)
 
 # # Sélectionner une date avec la sidebar (je trouve ça moins bien donc je garde l'ancienne méthode)
-# selected_date = st.sidebar.date_input(
-#     "Sélectionnez une date",
-#     value=prix["Date"].max(),
-#     min_value=prix["Date"].min(),
-#     max_value=prix["Date"].max(),
-# )
-
-# Sélectionner une date
-selected_date = st.date_input(
+selected_date = st.sidebar.date_input(
     "Sélectionnez une date",
     value=prix["Date"].max(),
     min_value=prix["Date"].min(),
     max_value=prix["Date"].max(),
     format="DD/MM/YYYY",
 )
+
+# # Sélectionner une date
+# selected_date = st.date_input(
+#     "Sélectionnez une date",
+#     value=prix["Date"].max(),
+#     min_value=prix["Date"].min(),
+#     max_value=prix["Date"].max(),
+#     format="DD/MM/YYYY",
+# )
 
 selected_date = pd.to_datetime(selected_date)
 filtered_price = prix[prix["Date"] == selected_date]
