@@ -89,7 +89,7 @@ popup_selected_html = f"""
 folium.Marker(
     location=[selected_station["Latitude"], selected_station["Longitude"]],
     popup=folium.Popup(popup_selected_html),
-    icon=folium.features.CustomIcon("/images/carrefour.png", icon_size=(40, 30)),
+    icon=folium.features.CustomIcon("./images/carrefour.png", icon_size=(40, 30)),
 ).add_to(map_france)
 
 # Ajouter les concurrents trouvés à la carte
