@@ -270,7 +270,6 @@ else:
 
 import plotly.express as px  # Pour tracer des graphiques interactifs
 import plotly.graph_objects as go  # Pour combiner plusieurs courbes
-import streamlit as st  # Pour l’interface utilisateur
 
 st.markdown(
     f"<hr /><h1 class='subtitle' style='text-align: center;'>Courbes d'évolution des prix</h1><hr />",
@@ -292,42 +291,91 @@ end_date = st.sidebar.date_input(
     "Date de fin", value=max_date, min_value=min_date, max_value=max_date
 )
 
-# Ajout d'une liste déroulante pour filtrer par enseigne
-selected_brand = st.sidebar.selectbox(
-    "Sélectionnez une enseigne",
-    options=["Toutes"] + list(concurrent_dict.keys()),
-    format_func=lambda x: (
-        "Toutes les enseignes" if x == "Toutes" else concurrent_dict[x]["Enseignes"]
-    ),
-)
-
-# Filtrer les données pour la plage de dates sélectionnée
+# Filtrer les données de prix pour la plage de dates sélectionnée
 filtered_prices = prices[
     (prices["Date"] >= pd.to_datetime(start_date))
     & (prices["Date"] <= pd.to_datetime(end_date))
 ]
 
-# Si une enseigne est sélectionnée, filtrer par id
-if selected_brand != "Toutes":
-    competitor_ids = [
-        int(key)
-        for key, val in concurrent_dict.items()
-        if val["Enseignes"] == selected_brand
-    ]
-    filtered_prices = filtered_prices[
-        filtered_prices["id"].isin([selected_station_id] + competitor_ids)
-    ]
-
 # Vérifier si des données sont disponibles pour la plage de dates
 if filtered_prices.empty:
     st.warning(
-        "\u26a0\ufe0f Aucune donnée de prix disponible pour la plage de dates sélectionnée."
+        "⚠️ Aucune donnée de prix disponible pour la plage de dates sélectionnée."
     )
 else:
-    # Parcourir les produits disponibles
-    for product in prices.select_dtypes(include=["float", "int"]).columns.difference(
-        ["id"]
-    ):
+    # Vérifiez si un produit spécifique ou "Tous" est sélectionné
+    if selected_product == "Tous":
+        # Parcourir tous les produits disponibles
+        for product in prices.select_dtypes(
+            include=["float", "int"]
+        ).columns.difference(["id"]):
+            carrefour_prices = filtered_prices[
+                filtered_prices["id"] == selected_station_id
+            ]
+            competitors_prices = filtered_prices[
+                filtered_prices["id"].isin(
+                    map(int, concurrents_km.get(str(selected_station_id), []))
+                )
+            ]
+
+            # Créer un graphique pour ce produit, même avec données partielles
+            fig = go.Figure()
+
+            # Ajouter la courbe Carrefour, vérifier si des données existent
+            if not carrefour_prices.empty and (carrefour_prices[product] != 0).any():
+                fig.add_trace(
+                    go.Scatter(
+                        x=carrefour_prices["Date"],
+                        y=carrefour_prices[product],
+                        mode="lines",
+                        name=f"Carrefour - {product}",
+                        line=dict(color="lightgreen"),
+                        opacity=1,  # Opacité maximale pour Carrefour
+                    )
+                )
+            else:
+                st.warning(f"⚠️ Carrefour ne vend pas le produit : {product}.")
+
+            # Ajouter des courbes pour les concurrents avec une opacité ajustée
+            for competitor_id in concurrents_km.get(str(selected_station_id), []):
+                competitor_prices = competitors_prices[
+                    competitors_prices["id"] == int(competitor_id)
+                ]
+                if (
+                    not competitor_prices.empty
+                    and (competitor_prices[product] != 0).any()
+                ):
+                    competitor_name = concurrent_dict.get(str(competitor_id), {}).get(
+                        "Enseignes", f"Concurrent {competitor_id}"
+                    )
+                    fig.add_trace(
+                        go.Scatter(
+                            x=competitor_prices["Date"],
+                            y=competitor_prices[product],
+                            mode="lines",
+                            name=f"{competitor_name} - {product}",
+                            line=dict(dash="dot"),
+                            opacity=0.5,  # Opacité réduite pour les concurrents
+                        )
+                    )
+
+            # Vérifier si le graphique contient des courbes
+            if len(fig.data) > 0:
+                # Personnaliser le style du graphique
+                fig.update_layout(
+                    title=f"Évolution des prix - {product}",
+                    xaxis_title="Date",
+                    yaxis_title="Prix (€)",
+                    title_x=0.5,
+                    template="plotly_white",
+                )
+
+                # Afficher le graphique dans Streamlit
+                st.plotly_chart(fig, use_container_width=True)
+            else:
+                st.info(f"Aucune donnée disponible pour le produit : {product}.")
+    else:
+        # Si un produit spécifique est sélectionné
         carrefour_prices = filtered_prices[filtered_prices["id"] == selected_station_id]
         competitors_prices = filtered_prices[
             filtered_prices["id"].isin(
@@ -335,57 +383,61 @@ else:
             )
         ]
 
-        # Créer un graphique pour chaque produit
+        # Créer un graphique pour le produit sélectionné
         fig = go.Figure()
 
-        # Ajouter la courbe Carrefour
-        if not carrefour_prices.empty and (carrefour_prices[product] != 0).any():
+        # Ajouter la courbe pour Carrefour
+        if (
+            not carrefour_prices.empty
+            and (carrefour_prices[selected_product] != 0).any()
+        ):
             fig.add_trace(
                 go.Scatter(
                     x=carrefour_prices["Date"],
-                    y=carrefour_prices[product],
+                    y=carrefour_prices[selected_product],
                     mode="lines",
-                    name=f"Carrefour - {product}",
+                    name="Carrefour",
                     line=dict(color="lightgreen"),
-                    opacity=1,
+                    opacity=1,  # Opacité maximale pour Carrefour
                 )
             )
+        else:
+            st.warning(f"⚠️ Carrefour ne vend pas le produit : {selected_product}.")
 
-        # Ajouter les courbes des concurrents
+        # Ajouter des courbes pour les concurrents avec une opacité ajustée
         for competitor_id in concurrents_km.get(str(selected_station_id), []):
             competitor_prices = competitors_prices[
                 competitors_prices["id"] == int(competitor_id)
             ]
-            if not competitor_prices.empty and (competitor_prices[product] != 0).any():
+            if (
+                not competitor_prices.empty
+                and (competitor_prices[selected_product] != 0).any()
+            ):
                 competitor_name = concurrent_dict.get(str(competitor_id), {}).get(
                     "Enseignes", f"Concurrent {competitor_id}"
                 )
                 fig.add_trace(
                     go.Scatter(
                         x=competitor_prices["Date"],
-                        y=competitor_prices[product],
+                        y=competitor_prices[selected_product],
                         mode="lines",
-                        name=f"{competitor_name} - {product}",
-                        line=dict(
-                            color=px.colors.qualitative.Plotly[
-                                competitor_id % len(px.colors.qualitative.Plotly)
-                            ]
-                        ),
-                        opacity=0.5,
+                        name=competitor_name,
+                        line=dict(dash="dot"),
+                        opacity=0.5,  # Opacité réduite pour les concurrents
                     )
                 )
 
-        # Personnaliser le style du graphique
+        # Vérifier si le graphique contient des courbes
         if len(fig.data) > 0:
             fig.update_layout(
-                title=f"Évolution des prix - {product}",
+                title=f"Évolution des prix - {selected_product}",
                 xaxis_title="Date",
                 yaxis_title="Prix (€)",
                 title_x=0.5,
                 template="plotly_white",
             )
-
-            # Afficher le graphique dans Streamlit
             st.plotly_chart(fig, use_container_width=True)
         else:
-            st.info(f"Aucune donnée disponible pour le produit : {product}.")
+            st.warning(
+                f"⚠️ Aucune donnée disponible pour le produit : {selected_product}."
+            )
