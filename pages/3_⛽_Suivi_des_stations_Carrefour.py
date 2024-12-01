@@ -3,7 +3,7 @@ import folium
 import pandas as pd
 import streamlit as st
 from tools import load_styles, load_data  # Importation de load_data depuis tools
-from streamlit_folium import folium_static, st_folium
+from streamlit_folium import st_folium
 
 # Configuration Streamlit
 st.set_page_config(
@@ -77,6 +77,7 @@ folium.Circle(
     fill=True,
     fill_opacity=0.1,
     tooltip=popup_radius_html,
+    divIcon=folium.divIcon(html=popup_radius_html),
 ).add_to(map_france)
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
@@ -108,18 +109,7 @@ for concurrent_id in concurrents_km.get(str(selected_station_id), []):
             icon=folium.Icon(color="red", icon="info-sign"),
         ).add_to(map_france)
 
-# # Afficher la carte dans Streamlit
-# st.html(
-#     f"""
-#         <div class="map-container">{folium_static(map_france, width=800, height=600)}</div>
-#     """,
-#     unsafe_allow_html=True,
-# )
-
-# st.markdown('<div class="map-container">', unsafe_allow_html=True)
-# folium_static(map_france, width=800, height=600)
-# st.markdown("</div>", unsafe_allow_html=True)
-
+# Afficher la carte dans Streamlit
 st_folium(map_france, height=600, use_container_width=True)
 
 ### Comparaison des prix ---------------------------------------------------------------
