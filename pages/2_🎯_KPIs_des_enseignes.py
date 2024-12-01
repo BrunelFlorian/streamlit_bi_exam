@@ -158,22 +158,9 @@ for i in range(0, n, 3):
                 unsafe_allow_html=True,
             )
 
-# Afficher une info sur les prix en rouge et les prix en vert
-st.markdown(
+# Informations supplémentaires
+st.info(
     """
-        <div role="alert" data-baseweb="notification" data-testid="stAlertContainer" class="stAlertContainer st-ax st-ay st-az st-b0 st-b1 st-b2 st-bx st-by st-bz st-ci st-c1 st-c2 st-c3 st-c4 st-c5 st-c6 st-c7 st-at st-av st-aw st-au st-c8 st-ch st-ca st-ar st-cb st-ag st-cc st-cd st-ce st-cf">
-            <div class="st-ae st-cg">
-                <div data-testid="stAlertContentInfo" class="st-emotion-cache-17z2rne e1e4pi9i0">
-                    <div class="st-emotion-cache-1m1jr3q e1eexb540">
-                        <div data-testid="stMarkdownContainer" class="st-emotion-cache-1y5f4eg e1nzilvr5" style="width: 100%;">
-                            <p>
-                                Les prix affichés en <span style="color: green; font-weight: bold;">vert</span> sont les prix moyens les plus bas et les prix affichés en <span style="color: red; font-weight: bold;">rouge</span> sont les prix moyens les plus élevés.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        Les prix affichés en vert sont les prix moyens les plus bas et les prix affichés en rouge sont les prix moyens les plus élevés.
     """,
-    unsafe_allow_html=True,
 )
