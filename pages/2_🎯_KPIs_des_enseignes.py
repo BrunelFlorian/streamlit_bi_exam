@@ -168,3 +168,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+st.info(
+    "Les prix affichés sont les moyennes des prix des carburants vendus dans les stations de chaque enseigne."
+)
