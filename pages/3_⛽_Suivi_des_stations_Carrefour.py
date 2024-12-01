@@ -423,7 +423,7 @@ else:
                         mode="lines",
                         name=competitor_name,
                         line=dict(dash="dot"),
-                        opacity=0.9,  # Opacité réduite pour les concurrents
+                        opacity=0.4,  # Opacité réduite pour les concurrents
                     )
                 )
 
