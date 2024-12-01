@@ -157,5 +157,10 @@ for i in range(0, n, 3):
                 """,
                 unsafe_allow_html=True,
             )
-    # Ajouter un espace entre les lignes
-    st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
+
+# Afficher une info sur les prix en rouge et les prix en vert
+st.info(
+    """
+        Les prix affichées en <span style="color: green; font-weight: bold;">vert</span> sont les prix moyens les plus bas et les prix affichées en <span style="color: red; font-weight: bold;">rouge</span> sont les prix moyens les plus élevés.
+    """
+)
