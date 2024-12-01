@@ -109,7 +109,7 @@ for concurrent_id in concurrents_km.get(str(selected_station_id), []):
         ).add_to(map_france)
 
 # Afficher la carte dans Streamlit
-st.html(
+st.markdown(
     f"""
         <div class="map-container">{folium_static(map_france)}</div>
     """,
