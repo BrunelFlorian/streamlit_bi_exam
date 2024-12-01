@@ -153,8 +153,6 @@ for i in range(0, n, 3):
                         <div class="flow-root">
                             <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                 {items_html}
-                            </ul>
-                        </div>
                     </div>
                 """,
                 unsafe_allow_html=True,
