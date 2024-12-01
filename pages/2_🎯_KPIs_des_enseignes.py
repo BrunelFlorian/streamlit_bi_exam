@@ -80,7 +80,7 @@ for carburant in carburants:
 # Propager les valeurs manquantes pour gérer les ruptures
 prix.ffill(inplace=True)
 
-# # Sélectionner une date avec la sidebar (je trouve ça moins bien donc je garde l'ancienne méthode)
+# Sélectionner une date avec la sidebar
 selected_date = st.sidebar.date_input(
     "Sélectionnez une date",
     value=prix["Date"].max(),
@@ -88,15 +88,6 @@ selected_date = st.sidebar.date_input(
     max_value=prix["Date"].max(),
     format="DD/MM/YYYY",
 )
-
-# # Sélectionner une date
-# selected_date = st.date_input(
-#     "Sélectionnez une date",
-#     value=prix["Date"].max(),
-#     min_value=prix["Date"].min(),
-#     max_value=prix["Date"].max(),
-#     format="DD/MM/YYYY",
-# )
 
 selected_date = pd.to_datetime(selected_date)
 filtered_price = prix[prix["Date"] == selected_date]
@@ -107,11 +98,24 @@ kpis = {
     for enseigne, ids in ids_par_enseigne.items()
 }
 
+# Identifier les prix minimums et maximums pour chaque carburant
+carburant_mins = {carburant: None for carburant in carburants}
+carburant_maxs = {carburant: None for carburant in carburants}
+
+for carburant in carburants:
+    prix_moyens_par_enseigne = {
+        enseigne: moyenne[carburant]
+        for enseigne, moyenne in kpis.items()
+        if not pd.isna(moyenne[carburant])
+    }
+    if prix_moyens_par_enseigne:
+        carburant_mins[carburant] = min(prix_moyens_par_enseigne.values())
+        carburant_maxs[carburant] = max(prix_moyens_par_enseigne.values())
+
 # Affichage des résultats avec le style Tailwind et disposition en colonnes
 enseigne_list = list(kpis.items())
 n = len(enseigne_list)
 
-# Diviser les enseignes en groupes de 3
 for i in range(0, n, 3):
     cols = st.columns(3)
     for j, col in enumerate(cols):
@@ -119,13 +123,22 @@ for i in range(0, n, 3):
             enseigne, moyenne = enseigne_list[i + j]
             items_html = ""
             for carburant, prix_moyen in moyenne.items():
+                if pd.isna(prix_moyen):
+                    continue
+                # Appliquer des styles conditionnels
+                if prix_moyen == carburant_mins[carburant]:
+                    style = "color: green; font-weight: bold;"
+                elif prix_moyen == carburant_maxs[carburant]:
+                    style = "color: red; font-weight: bold;"
+                else:
+                    style = ""
                 items_html += f"""
                     <li class="py-3 sm:py-4">
                         <div class="flex items-center">
                             <div class="flex-1 min-w-0 ms-4">
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-white">{carburant}</p>
                             </div>
-                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white" style="{style}">
                                 {prix_moyen:.3f} €
                             </div>
                         </div>
@@ -140,6 +153,8 @@ for i in range(0, n, 3):
                         <div class="flow-root">
                             <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                 {items_html}
+                            </ul>
+                        </div>
                     </div>
                 """,
                 unsafe_allow_html=True,
