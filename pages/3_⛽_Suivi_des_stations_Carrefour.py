@@ -76,7 +76,7 @@ folium.Circle(
     color="blue",
     fill=True,
     fill_opacity=0.1,
-    popup=popup_radius_html,
+    tooltip=popup_radius_html,
 ).add_to(map_france)
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
@@ -88,7 +88,7 @@ popup_selected_html = f"""
 """
 folium.Marker(
     location=[selected_station["Latitude"], selected_station["Longitude"]],
-    popup=folium.Popup(popup_selected_html),
+    tooltip=folium.Tooltip(popup_selected_html),
     icon=folium.features.CustomIcon("./images/carrefour.png", icon_size=(40, 30)),
 ).add_to(map_france)
 
@@ -104,7 +104,7 @@ for concurrent_id in concurrents_km.get(str(selected_station_id), []):
         """
         folium.Marker(
             location=[concurrent["Latitude"], concurrent["Longitude"]],
-            popup=folium.Popup(popup_html),
+            tooltip=folium.Tooltip(popup_html),
             icon=folium.Icon(color="red", icon="info-sign"),
         ).add_to(map_france)
 
