@@ -77,7 +77,6 @@ folium.Circle(
     fill=True,
     fill_opacity=0.1,
     tooltip=popup_radius_html,
-    interactive=False,
 ).add_to(map_france)
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
@@ -110,7 +109,9 @@ for concurrent_id in concurrents_km.get(str(selected_station_id), []):
         ).add_to(map_france)
 
 # Afficher la carte dans Streamlit
-folium_static(map_france)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    folium_static(map_france, width=800, height=600)
 
 ### Comparaison des prix ---------------------------------------------------------------
 
