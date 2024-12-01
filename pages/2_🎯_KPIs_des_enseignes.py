@@ -11,8 +11,8 @@ st.markdown(
 )
 
 # Chargement des données
-stations = pd.read_csv("exam_florian_brunel/data/stations.csv")
-prix = pd.read_csv("exam_florian_brunel/data/prix.csv", dtype={"Date": str})
+stations = pd.read_csv("./data/stations.csv")
+prix = pd.read_csv("./data/prix.csv", dtype={"Date": str})
 
 # Dictionnaire des variations d'enseignes
 enseigne_mapping = {

@@ -26,9 +26,9 @@ search_radius_km = st.slider(
 load_data(radius=search_radius_km)
 
 # Charger les données des stations Carrefour et des concurrents
-carrefour_stations = pd.read_csv("exam_florian_brunel/data/Carrefour.csv")
-concurrent_stations = pd.read_csv("exam_florian_brunel/data/Concurrents.csv")
-prices = pd.read_csv("exam_florian_brunel/data/prix.csv")
+carrefour_stations = pd.read_csv("./data/Carrefour.csv")
+concurrent_stations = pd.read_csv("./data/Concurrents.csv")
+prices = pd.read_csv("./data/prix.csv")
 
 # Correction des coordonnées
 carrefour_stations["Latitude"] /= 10**5
@@ -37,7 +37,7 @@ concurrent_stations["Latitude"] /= 10**5
 concurrent_stations["Longitude"] /= 10**5
 
 # Charger la liste des concurrents pour le rayon défini
-with open(f"exam_florian_brunel/data/concurrents_{search_radius_km}km.json", "r") as f:
+with open(f"./data/concurrents_{search_radius_km}km.json", "r") as f:
     concurrents_km = json.load(f)
 
 # Préparer un dictionnaire pour un accès rapide aux concurrents
@@ -90,9 +90,7 @@ popup_selected_html = f"""
 folium.Marker(
     location=[selected_station["Latitude"], selected_station["Longitude"]],
     popup=folium.Popup(popup_selected_html),
-    icon=folium.features.CustomIcon(
-        "./exam_florian_brunel/images/carrefour.png", icon_size=(40, 30)
-    ),
+    icon=folium.features.CustomIcon("/images/carrefour.png", icon_size=(40, 30)),
 ).add_to(map_france)
 
 # Ajouter les concurrents trouvés à la carte

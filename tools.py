@@ -166,7 +166,7 @@ def load_styles(anchor_name: str):
 @st.cache_data
 def load_data(radius: int):
     # Charger le fichier infos_stations.csv
-    infos_stations = pd.read_csv("data/stations.csv")
+    infos_stations = pd.read_csv("./data/stations.csv")
 
     # Filtrer les stations Carrefour
     carrefour_stations = infos_stations[
@@ -177,8 +177,8 @@ def load_data(radius: int):
     ]
 
     # Sauvegarder les fichiers filtrés
-    carrefour_stations.to_csv("exam_florian_brunel/data/Carrefour.csv", index=False)
-    concurrent_stations.to_csv("exam_florian_brunel/data/Concurrents.csv", index=False)
+    carrefour_stations.to_csv("./data/Carrefour.csv", index=False)
+    concurrent_stations.to_csv("./data/Concurrents.csv", index=False)
 
     def haversine(lat1, lon1, lat2, lon2):
         # Convertir les degrés en radians
@@ -244,7 +244,5 @@ def load_data(radius: int):
     D = {id: list_concurrents(id) for id in D2}
 
     # Sauvegarder les données dans un fichier JSON
-    with open(
-        f"exam_florian_brunel/data/concurrents_{radius}km.json", "w"
-    ) as json_file:
+    with open(f"./data/concurrents_{radius}km.json", "w") as json_file:
         json.dump(D, json_file, indent=4)
