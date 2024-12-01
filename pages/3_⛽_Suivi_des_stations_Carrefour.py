@@ -77,7 +77,7 @@ folium.Circle(
     fill=True,
     fill_opacity=0.1,
     tooltip=popup_radius_html,
-    divIcon=folium.divIcon(html=popup_radius_html),
+    divIcon=folium.DivIcon(html=popup_radius_html),
 ).add_to(map_france)
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
