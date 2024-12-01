@@ -355,7 +355,7 @@ else:
                             mode="lines",
                             name=f"{competitor_name} - {product}",
                             line=dict(dash="dot"),
-                            opacity=0.4,  # Opacité réduite pour les concurrents
+                            opacity=0.5,  # Opacité réduite pour les concurrents
                         )
                     )
 
@@ -423,7 +423,7 @@ else:
                         mode="lines",
                         name=competitor_name,
                         line=dict(dash="dot"),
-                        opacity=0.4,  # Opacité réduite pour les concurrents
+                        opacity=0.5,  # Opacité réduite pour les concurrents
                     )
                 )
 
