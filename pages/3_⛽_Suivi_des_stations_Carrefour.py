@@ -65,7 +65,7 @@ map_france = folium.Map(
 search_radius_m = search_radius_km * 1000  # Convertir en mètres
 
 popup_radius_html = f"""
-    <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 280px; max-width: 100%;">
+    <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 200px; max-width: 100%;">
         Rayon de recherche : <b>{search_radius_km} km</b>
     </div>
 """
@@ -77,6 +77,7 @@ folium.Circle(
     fill=True,
     fill_opacity=0.1,
     tooltip=popup_radius_html,
+    interactive=False,
 ).add_to(map_france)
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
@@ -97,7 +98,7 @@ for concurrent_id in concurrents_km.get(str(selected_station_id), []):
     concurrent = concurrent_dict.get(str(concurrent_id), None)
     if concurrent and "Carrefour" not in concurrent["Enseignes"]:  # Exclure Carrefour
         popup_html = f"""
-            <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 150px; max-width: 100%;">
+            <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 280px; max-width: 100%;">
                 <b>{concurrent['Enseignes']}</b><br>
                 Ville : {concurrent['Ville']}
             </div>
