@@ -35,8 +35,7 @@ st.markdown(
         ## 📚 Consignes de l'examen
 
         ### **Étape A : KPIs**
-        Calculez le prix moyen (par jour sélectionné) pour chaque enseigne : Carrefour, Auchan,
-E.Leclerc, Total Access, Intermarché et Système U
+        Calculez le prix moyen (par jour sélectionné) pour chaque enseigne : Carrefour, Auchan, E.Leclerc, Total Access,Intermarché et Système U
 
         ### **Étape B : Cartes**
         
