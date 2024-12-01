@@ -4,7 +4,6 @@ import pandas as pd
 import streamlit as st
 from tools import load_styles, load_data  # Importation de load_data depuis tools
 from streamlit_folium import folium_static
-from math import radians, cos, sin, asin, sqrt
 
 # Configuration Streamlit
 st.set_page_config(
