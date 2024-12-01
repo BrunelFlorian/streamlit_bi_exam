@@ -159,9 +159,12 @@ for i in range(0, n, 3):
             )
 
 # Afficher une info sur les prix en rouge et les prix en vert
-st.info(
+st.markdown(
     """
-        Les prix affichées en <span style="color: green; font-weight: bold;">vert</span> sont les prix moyens les plus bas et les prix affichées en <span style="color: red; font-weight: bold;">rouge</span> sont les prix moyens les plus élevés.
+    <div style="background-color: #eef4ff; border-left: 6px solid #1f77b4; padding: 10px; border-radius: 5px;">
+        Les prix affichés en <span style="color: green; font-weight: bold;">vert</span> sont les prix moyens les plus bas et 
+        les prix affichés en <span style="color: red; font-weight: bold;">rouge</span> sont les prix moyens les plus élevés.
+    </div>
     """,
     unsafe_allow_html=True,
 )
