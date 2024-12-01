@@ -70,14 +70,22 @@ popup_radius_html = f"""
     </div>
 """
 
-folium.Circle(
+# folium.Circle(
+#     location=[selected_station["Latitude"], selected_station["Longitude"]],
+#     radius=search_radius_m,
+#     color="blue",
+#     fill=True,
+#     fill_opacity=0.1,
+#     tooltip=popup_radius_html,
+# ).add_to(map_france)
+
+folium.CircleMarker(
     location=[selected_station["Latitude"], selected_station["Longitude"]],
     radius=search_radius_m,
     color="blue",
     fill=True,
     fill_opacity=0.1,
     tooltip=popup_radius_html,
-    divIcon=folium.DivIcon(html=popup_radius_html),
 ).add_to(map_france)
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
