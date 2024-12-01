@@ -109,9 +109,26 @@ for concurrent_id in concurrents_km.get(str(selected_station_id), []):
         ).add_to(map_france)
 
 # Afficher la carte dans Streamlit
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    folium_static(map_france, width=800, height=600)
+st.markdown(
+    """
+    <style>
+    .map-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        background-color: #f8f9fa; /* Couleur de fond optionnelle */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown('<div class="map-container">', unsafe_allow_html=True)
+folium_static(map_france, width=800, height=600)
+st.markdown("</div>", unsafe_allow_html=True)
 
 ### Comparaison des prix ---------------------------------------------------------------
 
