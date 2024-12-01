@@ -65,7 +65,7 @@ map_france = folium.Map(
 search_radius_m = search_radius_km * 1000  # Convertir en mètres
 
 popup_radius_html = f"""
-    <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 300px; max-width: 100%;">
+    <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 280px; max-width: 100%;">
         Rayon de recherche : <b>{search_radius_km} km</b>
     </div>
 """
@@ -81,7 +81,7 @@ folium.Circle(
 
 # Ajouter un marqueur pour la station Carrefour sélectionnée
 popup_selected_html = f"""
-    <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 200px; max-width: 100%;">
+    <div style="font-size: 14px; color: black; background-color: #f9f9f9; padding: 10px; border-radius: 8px; width: 280px; max-width: 100%;">
         <b>{selected_station['Enseignes']}</b><br>
         Ville : {selected_station['Ville']}
     </div>
