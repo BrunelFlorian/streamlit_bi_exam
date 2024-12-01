@@ -160,7 +160,5 @@ for i in range(0, n, 3):
 
 # Informations supplémentaires
 st.info(
-    """
-        Les prix affichés en vert sont les prix moyens les plus bas et les prix affichés en rouge sont les prix moyens les plus élevés.
-    """,
+    "Les prix affichés en vert sont les prix moyens les plus bas et les prix affichés en rouge sont les prix moyens les plus élevés."
 )
