@@ -34,11 +34,11 @@ st.markdown(
     """
         ## 📚 Consignes de l'examen
         
-        - **Étape A : KPIs**
+        ### **Étape A : KPIs**
         Calculez le prix moyen (par jour sélectionné) pour chaque enseigne : Carrefour, Auchan,
 E.Leclerc, Total Access, Intermarché et Système U
 
-        - **Étape B : Cartes**
+        ### **Étape B : Cartes**
         
         1. Affichage sur une carte avec Folium :
             - Pour chaque station Carrefour sélectionnée, affichez sur une carte la station Carrefour ainsi que les stations concurrentes dans un rayon de 10 km (en utilisant les données du fichier JSON).
