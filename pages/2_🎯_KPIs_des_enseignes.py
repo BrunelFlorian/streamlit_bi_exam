@@ -162,5 +162,6 @@ for i in range(0, n, 3):
 st.info(
     """
         Les prix affichées en <span style="color: green; font-weight: bold;">vert</span> sont les prix moyens les plus bas et les prix affichées en <span style="color: red; font-weight: bold;">rouge</span> sont les prix moyens les plus élevés.
-    """
+    """,
+    unsafe_allow_html=True,
 )
