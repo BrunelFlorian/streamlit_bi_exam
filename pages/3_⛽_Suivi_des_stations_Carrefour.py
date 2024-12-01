@@ -70,16 +70,7 @@ popup_radius_html = f"""
     </div>
 """
 
-# folium.Circle(
-#     location=[selected_station["Latitude"], selected_station["Longitude"]],
-#     radius=search_radius_m,
-#     color="blue",
-#     fill=True,
-#     fill_opacity=0.1,
-#     tooltip=popup_radius_html,
-# ).add_to(map_france)
-
-folium.CircleMarker(
+folium.Circle(
     location=[selected_station["Latitude"], selected_station["Longitude"]],
     radius=search_radius_m,
     color="blue",
