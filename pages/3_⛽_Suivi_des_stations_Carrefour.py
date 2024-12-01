@@ -267,6 +267,26 @@ else:
             )
 
 ### Afficher les courbes de prix ----------------------------------------------------------------------------------------
+import itertools
+
+# Générer des couleurs uniques pour les enseignes
+color_palette = itertools.cycle(
+    [
+        "#1f77b4",
+        "#ff7f0e",
+        "#2ca02c",
+        "#d62728",
+        "#9467bd",
+        "#8c564b",
+        "#e377c2",
+        "#7f7f7f",
+        "#bcbd22",
+        "#17becf",
+    ]
+)
+unique_colors = {
+    enseigne: next(color_palette) for enseigne in prices["Enseignes"].unique()
+}
 
 import plotly.express as px  # Pour tracer des graphiques interactifs
 import plotly.graph_objects as go  # Pour combiner plusieurs courbes
@@ -322,15 +342,18 @@ else:
             fig = go.Figure()
 
             # Ajouter la courbe Carrefour, vérifier si des données existent
-            if not carrefour_prices.empty and (carrefour_prices[product] != 0).any():
+            if (
+                not carrefour_prices.empty
+                and (carrefour_prices[selected_product] != 0).any()
+            ):
                 fig.add_trace(
                     go.Scatter(
                         x=carrefour_prices["Date"],
-                        y=carrefour_prices[product],
+                        y=carrefour_prices[selected_product],
                         mode="lines",
-                        name=f"Carrefour - {product}",
-                        line=dict(color="lightgreen"),
-                        opacity=1,  # Opacité maximale pour Carrefour
+                        name="Carrefour",
+                        line=dict(color=unique_colors.get("Carrefour", "lightgreen")),
+                        opacity=1,
                     )
                 )
             else:
@@ -343,19 +366,22 @@ else:
                 ]
                 if (
                     not competitor_prices.empty
-                    and (competitor_prices[product] != 0).any()
+                    and (competitor_prices[selected_product] != 0).any()
                 ):
                     competitor_name = concurrent_dict.get(str(competitor_id), {}).get(
                         "Enseignes", f"Concurrent {competitor_id}"
                     )
+                    competitor_color = unique_colors.get(
+                        competitor_name, "#7f7f7f"
+                    )  # Couleur par défaut si non définie
                     fig.add_trace(
                         go.Scatter(
                             x=competitor_prices["Date"],
-                            y=competitor_prices[product],
+                            y=competitor_prices[selected_product],
                             mode="lines",
-                            name=f"{competitor_name} - {product}",
-                            line=dict(dash="dot"),
-                            opacity=0.5,  # Opacité réduite pour les concurrents
+                            name=f"{competitor_name}",
+                            line=dict(color=competitor_color, dash="dot"),
+                            opacity=0.7,
                         )
                     )
 
@@ -416,14 +442,17 @@ else:
                 competitor_name = concurrent_dict.get(str(competitor_id), {}).get(
                     "Enseignes", f"Concurrent {competitor_id}"
                 )
+                competitor_color = unique_colors.get(
+                    competitor_name, "#7f7f7f"
+                )  # Couleur par défaut si non définie
                 fig.add_trace(
                     go.Scatter(
                         x=competitor_prices["Date"],
                         y=competitor_prices[selected_product],
                         mode="lines",
-                        name=competitor_name,
-                        line=dict(dash="dot"),
-                        opacity=0.5,  # Opacité réduite pour les concurrents
+                        name=f"{competitor_name}",
+                        line=dict(color=competitor_color, dash="dot"),
+                        opacity=0.7,
                     )
                 )
 
